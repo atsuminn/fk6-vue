@@ -18,9 +18,10 @@
     </v-toolbar>
 
     <v-tabs-items v-model="tab">
-      <v-tab-item v-for="item in items" :key="item">
+      <v-tab-item v-for="item in contents" :key="item">
         <v-card flat>
-          <v-card-text>{{ text }}</v-card-text>
+          <form-dialog />
+          <v-card-text>{{ item }}</v-card-text>
         </v-card>
       </v-tab-item>
     </v-tabs-items>
@@ -28,14 +29,18 @@
 </template>
 
 <script>
+import FormDialog from './FormDialog.vue'
 export default {
+  components: {FormDialog},
   data () {
     return {
       tab: null,
       items: [
         'Task', 'Create Form'
       ],
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+      contents: [
+        'aaaaa', 'bbbbb'
+      ]
     }
   }
 }
