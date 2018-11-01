@@ -19,27 +19,39 @@
 
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="item in contents" :key="item">
-        <v-card flat>
-          <form-dialog />
-          <v-card-text>{{ item }}</v-card-text>
+        <v-card flat v-if="tab === 0">
+          <v-card-text>{{ tab }}</v-card-text>
+          <avdulla />
         </v-card>
+        <v-card flat v-if="tab === 1">
+          <v-card-text>{{ item }}</v-card-text>
+          <app-form />
+        </v-card>
+        <v-card flat v-if="tab === 2">
+          <v-card-text>{{ item }}</v-card-text>
+          <report-form />
+        </v-card>
+          
       </v-tab-item>
     </v-tabs-items>
   </div>
 </template>
 
 <script>
-import FormDialog from './FormDialog.vue'
+import ReportForm from './ReportForm.vue'
+import Avdulla from './Avdulla.vue'
+import AppForm from './AppForm.vue'
+
 export default {
-  components: {FormDialog},
+  components: {Avdulla, ReportForm, AppForm},
   data () {
     return {
       tab: null,
       items: [
-        'Task', 'Create Form'
+        'All View', 'Create Form', 'Create Form'
       ],
       contents: [
-        'aaaaa', 'bbbbb'
+        'aaaaa', 'bbbbb', 'ccccc'
       ]
     }
   }
