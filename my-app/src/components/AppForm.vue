@@ -5,49 +5,154 @@
       <v-divider
         class="mx-2"
         inset
-        vertical
+        verticala
       ></v-divider>
       <v-spacer></v-spacer>
       <v-dialog v-model="dialog" max-width="500px">
-        <v-btn slot="activator" color="primary" dark class="mb-2">New Item</v-btn>
+        <v-btn slot="activator" color="primary" dark class="mb-2">就職活動申請・報告書作成</v-btn>
         <v-card>
           <v-card-title>
             <span class="headline">{{ formTitle }}</span>
           </v-card-title>
-
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
+                <v-flex xs12 sm6 md12>
+                  <v-text-field v-model="editedItem.Number" label="学籍番号"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" flat @click.native="save">Save</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-toolbar>
+      <!--カレンダー開始日-->
+       <v-flex xs12 lg6>
+        <v-menu
+          ref="menu1"
+          :close-on-content-click="false"
+          v-model="menu1"
+          :nudge-right="40"
+          lazy
+          transition="scale-transition"
+          offset-y
+          full-width
+          max-width="290px"
+          min-width="290px"
+        >
+          <v-text-field
+            slot="activator"
+            v-model="editedItem.date1"
+            label="開始日"
+            prepend-icon="event"
+          ></v-text-field>
+          <v-date-picker v-model="editedItem.date1" no-title @input="menu1 = false"></v-date-picker>
+        </v-menu>
+      </v-flex>
+     <!--開始時間-->
+      <v-flex xs11 lg6>
+      <v-menu
+        ref="menu2"
+        :close-on-content-click="false"
+        v-model="menu2"
+        :nudge-right="40"
+        :return-value.sync="time"
+        lazy
+        transition="scale-transition"
+        offset-y
+        full-width
+        max-width="290px"
+        min-width="290px"
+      >
+        <v-text-field
+          slot="activator"
+          v-model="time"
+          label="開始時間"
+          prepend-icon="access_time"
+          readonly
+        ></v-text-field>
+        <v-time-picker
+          v-if="menu2"
+          v-model="time"
+          full-width
+          @change="$refs.menu.save(time)"
+        ></v-time-picker>
+      </v-menu>
+    </v-flex>
+<!--カレンダー終了日-->
+      <v-flex xs12 lg6>
+        <v-menu
+          ref="menu3"
+          :close-on-content-click="false"
+          v-model="menu3"
+          :nudge-right="40"
+          lazy
+          transition="scale-transition"
+          offset-y
+          full-width
+          max-width="290px"
+          min-width="290px"
+        >
+          <v-text-field
+            slot="activator"
+            v-model="editedItem.date2"
+            label="終了日"
+            prepend-icon="event"
+          ></v-text-field>
+          <v-date-picker v-model="editedItem.date2" no-title @input="menu3 = false"></v-date-picker>
+        </v-menu>
+      </v-flex>
+<!--終了時間-->
+      <v-flex xs11 lg6>
+      <v-menu
+        ref="menu4"
+        :close-on-content-click="false"
+        v-model="menu4"
+        :nudge-right="40"
+        :return-value.sync="time"
+        lazy
+        transition="scale-transition"
+        offset-y
+        full-width
+        max-width="290px"
+        min-width="290px"
+      >
+        <v-text-field
+          slot="activator"
+          v-model="time"
+          label="終了時間"
+          prepend-icon="access_time"
+          readonly
+        ></v-text-field>
+        <v-time-picker
+          v-if="menu4"
+          v-model="time"
+          full-width
+          @change="$refs.menu.save(time)"
+        ></v-time-picker>
+      </v-menu>
+    </v-flex>
+        <v-flex xs12 sm6 md12>
+          <v-text-field v-model="editedItem.place" label="場所"></v-text-field>
+        </v-flex><br>
+        <v-flex xs12 sm6 md12>
+          <v-text-field v-model="editedItem.content" label="内容"></v-text-field>
+        </v-flex>
+        <v-flex xs12 sm6 md12>
+          <v-text-field v-model="editedItem.company" label="会社名"></v-text-field>
+        </v-flex>
+        <v-flex xs12 sm6 md12>
+          <Calendar />
+          <v-text-field v-model="editedItem.status" label="欠席・早退・遅刻"></v-text-field>
+        </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="blue darken-1" flat @click.native="close">キャンセル</v-btn>
+        <v-btn color="blue darken-1" flat @click.native="save">保存</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</v-toolbar>
+    
      <v-card>
     <v-card-title>
-      Nutrition
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -59,16 +164,17 @@
     <v-data-table
       :headers="headers"
       :items="desserts"
-       hide-actions
+      
       :search="search"
     >
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.name }}</td>
-        <td class="text-xs-right">{{ props.item.calories }}</td>
-        <td class="text-xs-right">{{ props.item.fat }}</td>
-        <td class="text-xs-right">{{ props.item.carbs }}</td>
-        <td class="text-xs-right">{{ props.item.protein }}</td>
-        <td class="justify-center layout px-0">
+        <td>{{ props.item.Number }}</td>
+        <td>{{ props.item.date1 }}</td>
+        <td>{{ props.item.date2 }}</td>
+        <td>{{ props.item.place }}</td>
+        <td>{{ props.item.content }}</td>
+        <td>{{ props.item.company }}</td>
+        <td>{{ props.item.status }}</td>
           <v-icon
             small
             class="mr-2"
@@ -82,8 +188,10 @@
           >
           delete
           </v-icon>
-        </td>
       </template>
+      <template slot="pageText" slot-scope="props">
+      page {{ props.pageStart }} - {{ props.pageStop }} ページ数{{ props.itemsLength }}
+    </template>
       <template slot="no-data">
         <v-btn color="primary" @click="initialize">Reset</v-btn>
       </template>
@@ -94,154 +202,131 @@
   </v-card>
   </div>
 </template>
-
 <script>
-  export default {
-    data: () => ({
-      dialog: false,
-      search: '',
-      headers: [
+export default {
+  data: () => ({
+    return: {
+      time: null,
+      menu4: false
+    },
+    date1: new Date().toISOString().substr(0, 10),
+    date2: new Date().toISOString().substr(0, 10),
+    menu1: false,
+    menu2: false,
+    menu3: false,
+    dialog: false,
+    search: '',
+    headers: [
+      { text: '学生番号', value: 'Number' },
+      { text: '開始日時', value: 'date1' },
+      { text: '終了日時', value: 'date2' },
+      { text: '場所', value: 'place' },
+      { text: '内容', value: 'content' },
+      { text: '会社', value: 'company' },
+      { text: '遅刻・早退・欠席', value: 'status' },
+      { text: '編集・削除' }
+    ],
+    desserts: [],
+    editedIndex: -1,
+    editedItem: {
+      Number: '',
+      date1: '',
+      date2: '',
+      place: '',
+      content: '',
+      company: '',
+      status: ''
+    },
+    defaultItem: {
+      Number: '',
+      date1: '',
+      date2: '',
+      place: '',
+      content: '',
+      company: '',
+      status: ''
+    }
+  }),
+  computed: {
+    formTitle () {
+      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+    }
+  },
+  watch: {
+    dialog (val) {
+      val || this.close()
+    },
+    date1 (val) {
+      this.date1 = this.date1
+    },
+    date2 (val) {
+      this.date2 = this.date2
+    }
+  },
+  created () {
+    this.initialize()
+  },
+  methods: {
+    initialize () {
+      this.desserts = [
         {
-          text: 'Dessert (100g serving)',
-          align: 'left',
-          sortable: false,
-          value: 'name'
+          Number: '114514',
+          StartDate: '2018/04/33',
+          EndDate: '2018/04/99',
+          place: '北海道情報専門学校４F',
+          content: '学校見学',
+          company: '電子開発学園',
+          status: ''
         },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Actions', value: 'name', sortable: false }
-      ],
-      desserts: [],
-      editedIndex: -1,
-      editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0
-      },
-      defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0
-      }
-    }),
-    computed: {
-      formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-      }
-    },
-    watch: {
-      dialog (val) {
-        val || this.close()
-      }
-    },
-    created () {
-      this.initialize()
-    },
-    methods: {
-      initialize () {
-        this.desserts = [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7
-          }
-        ]
-      },
-      editItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
-      deleteItem (item) {
-        const index = this.desserts.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
-      },
-      close () {
-        this.dialog = false
-        setTimeout(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        }, 300)
-      },
-      save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
-        } else {
-          this.desserts.push(this.editedItem)
+        {
+          Number: '114514',
+          StartDate: '2018/04/33',
+          EndDate: '2018/04/99',
+          place: '北海道情報専門学校４F',
+          content: '学校見学',
+          company: '電子開発学園',
+          status: ''
+        },
+        {
+          date: '201',
+          place: '',
+          content: 'ueo',
+          company: 'aooaoa',
+          status: 'de'
+        },
+        {
+          date: '233',
+          place: 'msi',
+          content: 'eo',
+          company: 'aoaoa',
+          status: 'ne'
         }
-        this.close()
+      ]
+    },
+    editItem (item) {
+      this.editedIndex = this.desserts.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialog = true
+    },
+    deleteItem (item) {
+      const index = this.desserts.indexOf(item)
+      confirm('削除しても大丈夫ですか？') && this.desserts.splice(index, 1)
+    },
+    close () {
+      this.dialog = false
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      }, 300)
+    },
+    save () {
+      if (this.editedIndex > -1) {
+        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+      } else {
+        this.desserts.push(this.editedItem)
       }
+      this.close()
     }
   }
+}
 </script>

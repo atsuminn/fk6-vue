@@ -29,7 +29,7 @@
         </v-card>
         <v-card flat v-if="tab === 2">
           <v-card-text>{{ item }}</v-card-text>
-          <report-form />
+          <calender />
         </v-card>
           
       </v-tab-item>
@@ -38,12 +38,12 @@
 </template>
 
 <script>
-import ReportForm from './ReportForm.vue'
+import Calender from './Calender.vue'
 import Avdulla from './Avdulla.vue'
 import AppForm from './AppForm.vue'
 
 export default {
-  components: {Avdulla, ReportForm, AppForm},
+  components: {Avdulla, Calender, AppForm},
   data () {
     return {
       tab: null,
